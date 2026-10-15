@@ -1,0 +1,67 @@
+
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Angular application
+        run: npm run build -- --base-href /product-explorer/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Locate build output
+        id: output
+        shell: bash
+        run: |
+          path=$(find dist -type f -name index.html | grep '/browser/index.html$' | head -n 1)
+          if [ -z "$path" ]; then
+            path=$(find dist -type f -name index.html | head -n 1)
+          fi
+          if [ -z "$path" ]; then
+            echo "Could not find index.html in dist/"
+            exit 1
+          fi
+          echo "path=$(dirname "$path")" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ steps.output.outputs.path }}
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
