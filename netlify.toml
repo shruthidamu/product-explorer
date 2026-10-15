@@ -1,8 +1,0 @@
-[build]
-  command = "npm run build"
-  publish = "dist/product-explorer/browser"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
