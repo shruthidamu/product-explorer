@@ -1,0 +1,49 @@
+<div class="app-container">
+    <header class="app-header">
+        <h1>Product Explorer</h1>
+        <p>Find products you'll love</p>
+    </header>
+    <main class="main-content">
+        <section class="page-intro">
+            <h2>Explore Products</h2>
+            <p>Discover amazing products tailored just for you.</p>
+        </section>
+        <section>
+            <input type="text" placeholder="Search for products..." class="search-bar"  
+            (input) = "onSearch($event)" />
+            
+            <select class="category-filter" (change)="onCategoryChange($event)">
+                <option value="">All categories</option>
+                @for (category of store.categoryList(); track category){
+                    <option>
+                        {{ category }}
+                    </option>
+                }
+            </select>
+        </section>
+        @if (store.loading()) {
+            <p>Loading products...</p>
+        }
+        @if(store.error()) {
+            <p class="error-message">{{ store.error() }}</p> 
+        }
+        <section class="product-list" aria-label="Product List">
+            @for (product of paginationProducts; track product.id) {
+                <div class="product-card">
+                    <img [src]="product.image" alt="{{ product.title }}" />
+                    <h3>{{ product.title }}</h3>
+                    <p>{{ product.description }}</p>
+                    <span class="price">{{ product.price | currency }}</span>
+                </div>
+            } @empty {
+                <p>No products found</p>
+            }
+            
+        </section>
+        <section class="pagination-controls">
+            <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+        </section>
+    </main>
+</div>
