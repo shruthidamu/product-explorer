@@ -29,7 +29,12 @@
         }
         <section class="product-list" aria-label="Product List">
             @for (product of paginationProducts; track product.id) {
-                <div class="product-card">
+                <div class="product-card" (click)="onProductSelect(product)">
+                     <button
+                        class="wishlist-button"
+                        (click)="$event.stopPropagation(); addToWishlist(product)">
+                        {{ isInWishlist(product) ? '♥' : '♡' }}
+                    </button>
                     <img [src]="product.image" alt="{{ product.title }}" />
                     <h3>{{ product.title }}</h3>
                     <p>{{ product.description }}</p>
@@ -38,7 +43,23 @@
             } @empty {
                 <p>No products found</p>
             }
-            
+            @if(selectedProduct) {
+                <div class="modal-overlay">
+                    <div class="modal-content">
+                        <button class="close-modal" (click)="closeModal()">
+                            &times;
+                        </button>
+                        <img
+                            [src]="selectedProduct.image"
+                            [alt]="selectedProduct.title"
+                        />
+                        <h3>{{ selectedProduct.title }}</h3>
+                        <p>{{ selectedProduct.description }}</p>
+                        <span class="price">{{ selectedProduct.price | currency }}</span>
+                    </div>
+
+                </div>
+            }
         </section>
         <section class="pagination-controls">
             <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>

@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { productsStore } from '../store/products.store';
 import { CurrencyPipe } from '@angular/common';
+import { Product } from '../models/product';
+import { wishlistStore } from '../store/wishlist.store';
 
 @Component({
   selector: 'app-product-explorer-homepage',
@@ -11,6 +13,8 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class ProductExplorerHomepageComponent {
   readonly store = inject(productsStore);
+  readonly wishlistStore = inject(wishlistStore);
+
   currentPage = 1;
   pageSize = 6;
 
@@ -52,4 +56,24 @@ export class ProductExplorerHomepageComponent {
     this.store.setSelectedCategory(select.value);
     this.currentPage = 1;
   }
+
+  selectedProduct: Product | null = null;
+  onProductSelect(selectedProduct: Product) {
+    console.log("Product", selectedProduct);
+    this.selectedProduct = selectedProduct;
+  }
+
+  closeModal() {
+    this.selectedProduct = null;
+  }
+  addToWishlist(product: Product) {
+    this.wishlistStore.addToWishlist(product);
+    console.log("Wishlist Item: ", this.wishlistStore.items());
+  }
+
+  isInWishlist(product: Product): boolean {
+  return this.wishlistStore.items().some(
+    item => item.id === product.id
+  );
+}
 }

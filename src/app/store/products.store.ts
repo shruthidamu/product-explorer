@@ -1,6 +1,6 @@
 import { signalStore, withState, withComputed, withMethods, patchState} from '@ngrx/signals';
 import { Product } from '../models/product';
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { ProductsService } from '../services/products.service';
 
 interface ProductsState {
