@@ -1,4 +1,8 @@
 <div class="app-container">
+    <nav class="nav-style">
+        <a routerLink = "/">Product Explorer</a>
+        <a routerLink = "/users">Users</a>
+    </nav>
     <header class="app-header">
         <h1>Product Explorer</h1>
         <p>Find products you'll love</p>
@@ -32,7 +36,8 @@
                 <div class="product-card" (click)="onProductSelect(product)">
                      <button
                         class="wishlist-button"
-                        (click)="$event.stopPropagation(); addToWishlist(product)">
+                        [class.selected]="isInWishlist(product)"
+                        (click)="$event.stopPropagation(); toggleWishlist(product)">
                         {{ isInWishlist(product) ? '♥' : '♡' }}
                     </button>
                     <img [src]="product.image" alt="{{ product.title }}" />

@@ -14,6 +14,40 @@
   min-height: 100vh;
 }
 
+.app-container .nav-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e6eaf1;
+  box-shadow: 0 2px 8px rgb(22 34 66 / 5%);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.55rem 1rem;
+    border-radius: 0.65rem;
+    color: #475467;
+    font-size: 0.95rem;
+    font-weight: 650;
+    text-decoration: none;
+    transition: color 150ms ease, background-color 150ms ease;
+
+    &:hover {
+      color: #5146b8;
+      background: #f2f1ff;
+    }
+
+    &:focus-visible {
+      outline: 3px solid rgb(99 91 203 / 30%);
+      outline-offset: 2px;
+    }
+  }
+}
+
 .app-header {
   padding: clamp(2rem, 5vw, 4rem) 1.5rem;
   color: #fff;
@@ -271,6 +305,15 @@
 }
 
 @media (max-width: 560px) {
+  .app-container .nav-style {
+    gap: 0.25rem;
+    padding-inline: 0.75rem;
+  }
+
+  .app-container .nav-style a {
+    padding-inline: 0.75rem;
+  }
+
   .main-content {
     width: min(100% - 1.25rem, 1180px);
     padding-top: 1.75rem;

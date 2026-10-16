@@ -3,11 +3,12 @@ import { productsStore } from '../store/products.store';
 import { CurrencyPipe } from '@angular/common';
 import { Product } from '../models/product';
 import { wishlistStore } from '../store/wishlist.store';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-explorer-homepage',
   standalone: true,
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   templateUrl: './product-explorer-homepage.component.html',
   styleUrl: './product-explorer-homepage.component.scss'
 })
@@ -66,8 +67,12 @@ export class ProductExplorerHomepageComponent {
   closeModal() {
     this.selectedProduct = null;
   }
-  addToWishlist(product: Product) {
-    this.wishlistStore.addToWishlist(product);
+  toggleWishlist(product: Product) {
+    if(this.isInWishlist(product)) {
+      this.wishlistStore.removeFromWishlist(product.id);
+    } else {
+      this.wishlistStore.addToWishlist(product);
+    }
     console.log("Wishlist Item: ", this.wishlistStore.items());
   }
 

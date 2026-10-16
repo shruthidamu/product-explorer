@@ -21,6 +21,13 @@ export const wishlistStore = signalStore(
                     items: [...store.items(), prod]
                 })  
             }
+        },
+        removeFromWishlist(prodID: Product['id']) {
+            patchState(store, {
+                items: store.items().filter((item) => {
+                    return item.id !== prodID
+                })
+            })
         }
     }))
 )
