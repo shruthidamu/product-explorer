@@ -1,0 +1,36 @@
+<div class="container">
+    <h1>Registration Form</h1>
+    <form
+    [formGroup]="registrationForm"
+    (ngSubmit)="onSubmit()">
+    <div class="form-field">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" placeholder="Enter your name"/>
+        @if(registrationForm.controls.name.touched && registrationForm.controls.name.hasError('required')) {
+            <small class="error">Name is required</small>
+        }
+        @if(registrationForm.controls.name.touched && registrationForm.controls.name.hasError('minlength')) {
+            <small class="error">Name should be atleast 3 characters</small>
+        }
+    </div>
+    <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="Email"/>
+        @if(registrationForm.controls.email.touched && registrationForm.controls.email.hasError('required')) {
+            <small class="error">Email is required</small>
+        }
+        @if(registrationForm.controls.email.touched && registrationForm.controls.email.hasError('email')) {
+            <small class="error">Enter a valid email address</small>
+        }
+    </div>
+    <div class="form-field">
+        <label for="phone">Phone</label>
+        <input id="phone" type="tel" formControlName="phone" placeholder="Enter your phone number"/>
+        @if(registrationForm.controls.email.touched && registrationForm.controls.email.hasError('pattern')) {
+            <small class="error">Enter exactly 10 digits</small>
+        }
+    </div>
+    <button type="submit">Register</button>
+    </form>
+
+</div>
