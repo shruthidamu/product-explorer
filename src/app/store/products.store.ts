@@ -64,20 +64,20 @@ export const productsStore = signalStore(
                 loading: true,
                 error: null
             })
-            productsService.getProducts().subscribe((result) => {
-                patchState(store, {
-                    products: result,
-                    loading: false
-                })
-            },
-            (error) => {
-                patchState(store, {
+            productsService.getProducts().subscribe({
+                next: (result) => {
+                    patchState(store, {
+                        products: result,
+                        loading: false
+                    })
+                },
+                error: () => {
+                    patchState(store, {
                     error:"There is an error, failed to load products",
                     loading: false
                 })
-                console.log("Error: ", error);
-            }
-        )
+                }
+            })
         }
     }))
 )

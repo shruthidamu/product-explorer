@@ -12,4 +12,16 @@
             <li [ngClass]="{'odd-id':user.id%2!==0}">{{ user.name }}</li>
         }
     </ul>
+    <div>
+        <ul>
+            @for(u of usersdemo | sorList: 'name'; track u.name) {
+                <li>
+                    {{u.name}} - {{u.age}}
+                </li>
+            }
+            
+        </ul>
+        <button (click)="onClickAdd()">add</button>
+    </div>
+
 </div>
